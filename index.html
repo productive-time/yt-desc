@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Description</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      padding: 30px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    textarea {
+      resize: vertical;
+      height: 150px;
+      font-family: monospace;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      margin-top: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+    }
+    @media (max-width: 600px) {
+      .btn-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Description</h1>
+
+    <label for="type">Type of Video</label>
+    <select id="type" onchange="updateVisibility()">
+      <option value="oa">OA (Only Solution Link)</option>
+      <option value="question">Question-Based (Question + Solution)</option>
+      <option value="contest">Contest</option>
+    </select>
+
+    <div id="posGroup">
+      <label for="position">Playlist Position (e.g., Fourth, Fifth)</label>
+      <input type="text" id="position" placeholder="Fourth, Fifth, etc.">
+    </div>
+
+    <div id="qnGroup">
+      <label for="questionLink">Question Link (for type 2)</label>
+      <input type="text" id="questionLink" placeholder="https://...">
+    </div>
+
+    <label for="solutionLink">Solution Code Link</label>
+    <input type="text" id="solutionLink" placeholder="https://...">
+
+    <div class="btn-row">
+      <button onclick="generateDescription()">Generate</button>
+      <button onclick="copyDescription()">Copy</button>
+    </div>
+
+    <label for="output">Generated Description</label>
+    <textarea id="output" readonly></textarea>
+  </div>
+
+  <script>
+    function updateVisibility() {
+      const type = document.getElementById("type").value;
+      document.getElementById("posGroup").style.display = (type !== "contest") ? "block" : "none";
+      document.getElementById("qnGroup").style.display = (type === "question") ? "block" : "none";
+    }
+
+    function generateDescription() {
+      const type = document.getElementById("type").value;
+      const pos = document.getElementById("position").value.trim();
+      const qnLink = document.getElementById("questionLink").value.trim();
+      const solLink = document.getElementById("solutionLink").value.trim();
+      let desc = "";
+
+      if (type === "oa") {
+        desc = `This is the ${pos} video in this playlist.\nBelow is the link of solution. Ask your doubts in comments below. For more clarity, refer the solution code. If you understand the solution, Like the video and Subscribe channel to get more updates\n\n${solLink}`;
+      } else if (type === "question") {
+        desc = `This is the ${pos} video of DSU playlist. Below are the links of question and solution discussed in video. If you have any doubts, comment below.  Subscribe for more updates.\n\n${qnLink}\n${solLink}`;
+      } else if (type === "contest") {
+        desc = `Below is the link of solution discussed in video. Ask your doubts in comments below. For more clarity, refer the solution code. If you understand the solution, Like the video and Subscribe channel to get more updates\n\n${solLink}`;
+      }
+
+      document.getElementById("output").value = desc;
+    }
+
+    function copyDescription() {
+      const output = document.getElementById("output");
+      output.select();
+      document.execCommand("copy");
+    }
+
+    window.onload = updateVisibility;
+  </script>
+</body>
+</html>
