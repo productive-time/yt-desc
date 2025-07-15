@@ -110,15 +110,16 @@
 
     function generateDescription() {
       const type = document.getElementById("type").value;
-      const pos = document.getElementById("position").value.trim();
-      const qnLink = document.getElementById("questionLink").value.trim();
-      const solLink = document.getElementById("solutionLink").value.trim();
+    const pos = document.getElementById("position").value.trim().toLowerCase();
+const qnLink = document.getElementById("questionLink").value.trim().toLowerCase();
+const solLink = document.getElementById("solutionLink").value.trim().toLowerCase();
+
       let desc = "";
 
       if (type === "oa") {
         desc = `This is the ${pos} video in this playlist.\nBelow is the link of solution. Ask your doubts in comments below. For more clarity, refer the solution code. If you understand the solution, Like the video and Subscribe channel to get more updates\n\n${solLink}`;
       } else if (type === "question") {
-        desc = `This is the ${pos} video of DSU playlist. Below are the links of question and solution discussed in video. If you have any doubts, comment below.  Subscribe for more updates.\n\n${qnLink}\n${solLink}`;
+        desc = `This is the ${pos} video of this playlist. Below are the links of question and solution discussed in video. If you have any doubts, comment below.  Subscribe for more updates.\n\n${qnLink}\n${solLink}`;
       } else if (type === "contest") {
         desc = `Below is the link of solution discussed in video. Ask your doubts in comments below. For more clarity, refer the solution code. If you understand the solution, Like the video and Subscribe channel to get more updates\n\n${solLink}`;
       }
